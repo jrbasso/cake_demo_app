@@ -14,6 +14,9 @@ class AccountsController extends AppController {
 	}
 
 	public function index() {
+		if (!$this->Auth->user()) {
+			$this->render('home');
+		}
 	}
 
 	public function all() {
