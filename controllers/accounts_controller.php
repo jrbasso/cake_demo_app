@@ -4,9 +4,13 @@ class AccountsController extends AppController {
 	public $name = 'Accounts';
 
 	public function login() {
+		if ($this->request->is('post')) {
+			$this->Auth->login();
+		}
 	}
 
 	public function logout() {
+		$this->redirect($this->Auth->logout());
 	}
 
 	public function index() {
@@ -29,7 +33,8 @@ class AccountsController extends AppController {
 		if ($this->request->is('post')) {
 			$this->Account->create();
 			if ($this->Account->save($this->request->data)) {
-				$this->Session->setFlash(__('The account has been saved'));
+				$this->Session->setFlash(__('The account has been created.'));
+				$this->Auth->login();
 				$this->redirect(array('action' => 'index'));
 			} else {
 				$this->Session->setFlash(__('The account could not be saved. Please, try again.'));

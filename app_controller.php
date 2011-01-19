@@ -29,4 +29,28 @@
  * @package       app
  */
 class AppController extends Controller {
+
+	public $components = array('Session', 'Auth');
+
+	public function beforeFilter() {
+		$this->_authConfig();
+
+		parent::beforeFilter();
+	}
+
+	protected function _authConfig() {
+		$this->Auth->userModel = 'Account';
+		$this->Auth->fields = array('username' => 'username', 'password' => 'password');
+		$this->Auth->loginAction = array('controller' => 'accounts', 'action' => 'login');
+		$this->Auth->loginRedirect = '/';
+		$this->Auth->logoutRedirect = $this->Auth->loginAction;
+		$this->Auth->authorize = 'controller';
+		$this->Auth->allow('*');
+		pr($this->Auth->user());
+	}
+
+	function isAuthorized() {
+		return true;
+	}
+
 }
