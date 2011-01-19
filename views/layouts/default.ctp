@@ -35,7 +35,7 @@
 <body>
 	<div id="container">
 		<div id="header">
-			<h1><?php echo $this->Html->link(__('CakePHP: the rapid development php framework'), 'http://cakephp.org'); ?></h1>
+			<h1><?php echo $this->Html->link(__('Demo Application'), '/'); ?></h1>
 		</div>
 		<div id="content">
 
