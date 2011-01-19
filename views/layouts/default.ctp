@@ -36,6 +36,9 @@
 	<div id="container">
 		<div id="header">
 			<h1><?php echo $this->Html->link(__('Demo Application'), '/'); ?></h1>
+			<?php if ($logged): ?>
+			<div class="logout"><?php echo $this->Html->link(__('Logout'), array('controller' => 'accounts', 'action' => 'logout')); ?></div>
+			<?php endif; ?>
 		</div>
 		<div id="content">
 

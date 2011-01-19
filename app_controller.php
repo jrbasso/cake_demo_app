@@ -31,11 +31,18 @@
 class AppController extends Controller {
 
 	public $components = array('Session', 'Auth');
+	protected $_logged = false;
 
 	public function beforeFilter() {
 		$this->_authConfig();
 
 		parent::beforeFilter();
+	}
+
+	public function beforeRender() {
+		$this->set('logged', $this->_logged);
+
+		parent::beforeRender();
 	}
 
 	protected function _authConfig() {
@@ -46,6 +53,7 @@ class AppController extends Controller {
 		$this->Auth->logoutRedirect = $this->Auth->loginAction;
 		$this->Auth->authorize = 'controller';
 		$this->Auth->allow('*');
+		$this->_logged = (bool)$this->Auth->user();
 	}
 
 	function isAuthorized() {

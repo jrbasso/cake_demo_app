@@ -81,6 +81,7 @@ ul, li {
 	background: #003d4c url('../img/cake.icon.png') no-repeat left;
 	color: #fff;
 	padding: 0px 30px;
+	float: left;
 }
 #header h1 a {
 	color: #fff;
@@ -92,6 +93,12 @@ ul, li {
 	color: #fff;
 	background: #003d4c;
 	text-decoration: underline;
+}
+#header div.logout {
+	text-align: right;
+}
+#header div.logout a {
+	color: #fff;
 }
 #content{
 	background: #fff;
