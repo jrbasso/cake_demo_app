@@ -46,7 +46,6 @@ class AppController extends Controller {
 		$this->Auth->logoutRedirect = $this->Auth->loginAction;
 		$this->Auth->authorize = 'controller';
 		$this->Auth->allow('*');
-		pr($this->Auth->user());
 	}
 
 	function isAuthorized() {
