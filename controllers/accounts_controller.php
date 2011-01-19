@@ -17,6 +17,7 @@ class AccountsController extends AppController {
 		if (!$this->_logged) {
 			$this->render('home');
 		}
+		$this->set('user', $this->Auth->user());
 	}
 
 	public function all() {
