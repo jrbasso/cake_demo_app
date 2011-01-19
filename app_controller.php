@@ -50,7 +50,7 @@ class AppController extends Controller {
 		$this->Auth->fields = array('username' => 'username', 'password' => 'password');
 		$this->Auth->loginAction = array('controller' => 'accounts', 'action' => 'login');
 		$this->Auth->loginRedirect = '/';
-		$this->Auth->logoutRedirect = $this->Auth->loginAction;
+		$this->Auth->logoutRedirect = $this->Auth->loginRedirect;
 		$this->Auth->authorize = 'controller';
 		$this->Auth->allow('*');
 		$this->_logged = (bool)$this->Auth->user();

@@ -14,7 +14,7 @@ class AccountsController extends AppController {
 	}
 
 	public function index() {
-		if (!$this->Auth->user()) {
+		if (!$this->_logged) {
 			$this->render('home');
 		}
 	}
