@@ -1,0 +1,2 @@
+<div id="photos">
+</div>

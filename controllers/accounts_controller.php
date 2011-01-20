@@ -29,7 +29,7 @@ class AccountsController extends AppController {
 
 	public function view($username = null) {
 		$user = $this->Auth->user();
-		$feeds = array();
+		$feeds = $this->Account->getFeeds($user['Account']['id']);
 		$canAddAsFriend = ($user['Account']['username'] === $username);
 		$this->set(compact('user', 'feeds', 'canAddAsFriend'));
 /*
