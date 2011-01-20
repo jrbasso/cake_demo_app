@@ -18,6 +18,8 @@ class AccountsController extends AppController {
 			$this->render('home');
 		}
 		$this->set('user', $this->Auth->user());
+		$this->set('feeds', array());
+		$this->set('canAddAsFriend', true);
 	}
 
 	public function all() {
