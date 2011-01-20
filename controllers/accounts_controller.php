@@ -1,7 +1,9 @@
 <?php
 class AccountsController extends AppController {
 
-	public $name = 'Accounts';
+	const NUM_FRIENDS = 6;
+	const NUM_PHOTOS = 6;
+	const NUM_FEEDS = 20;
 
 	public function login() {
 		if ($this->request->is('post')) {
@@ -14,12 +16,10 @@ class AccountsController extends AppController {
 	}
 
 	public function index() {
-		if (!$this->_logged) {
-			$this->render('home');
+		if ($this->_logged) {
+			$user = $this->Auth->user();
+			$this->redirect(array('action' => 'view', $user['Account']['username']));
 		}
-		$this->set('user', $this->Auth->user());
-		$this->set('feeds', array());
-		$this->set('canAddAsFriend', true);
 	}
 
 	public function all() {
@@ -27,12 +27,17 @@ class AccountsController extends AppController {
 		$this->set('accounts', $this->paginate());
 	}
 
-	public function view($id = null) {
+	public function view($username = null) {
+		$user = $this->Auth->user();
+		$feeds = array();
+		$canAddAsFriend = ($user['Account']['username'] === $username);
+		$this->set(compact('user', 'feeds', 'canAddAsFriend'));
+/*
 		$this->Account->id = $id;
 		if (!$this->Account->exists()) {
 			throw new NotFoundException(__('Invalid account'));
 		}
-		$this->set('account', $this->Account->read(null, $id));
+		$this->set('account', $this->Account->read(null, $id));*/
 	}
 
 	public function add() {
