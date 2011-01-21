@@ -1,5 +1,5 @@
 <?php 
-/* Demo schema generated on: 2011-01-18 12:01:23 : 1295360783*/
+/* Demo schema generated on: 2011-01-20 22:20:09 : 1295569209*/
 class DemoSchema extends CakeSchema {
 	var $name = 'Demo';
 
@@ -17,7 +17,7 @@ class DemoSchema extends CakeSchema {
 		'name' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 100, 'collate' => 'utf8_general_ci', 'comment' => '', 'charset' => 'utf8'),
 		'email' => array('type' => 'string', 'null' => false, 'default' => NULL, 'length' => 100, 'collate' => 'utf8_general_ci', 'comment' => '', 'charset' => 'utf8'),
 		'created' => array('type' => 'datetime', 'null' => false, 'default' => NULL, 'collate' => NULL, 'comment' => ''),
-		'indexes' => array('PRIMARY' => array('column' => 'id', 'unique' => 1), 'username_UNIQUE' => array('column' => 'username', 'unique' => 1)),
+		'indexes' => array('PRIMARY' => array('column' => 'id', 'unique' => 1), 'username_UNIQUE' => array('column' => 'username', 'unique' => 1), 'username' => array('column' => 'username', 'unique' => 0)),
 		'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'InnoDB')
 	);
 	var $friends = array(
