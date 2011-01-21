@@ -208,7 +208,6 @@ class Account extends AppModel {
 					'DoFriend.requested_friend_id' => $accountId
 				)
 			),
-			'order' => 'RAND()',
 			'recursive' => -1
 		));
 		if (empty($data)) {
