@@ -183,7 +183,8 @@ class Account extends AppModel {
 		$accounts[] = $this->getIdFromUsername($username);
 		return $this->Post->find('all', array(
 			'conditions' => array('Post.account_id' => $accounts),
-			'order' => array('Post.created' => 'DESC')
+			'order' => array('Post.created' => 'DESC'),
+			'limit' => $quantity > 0 ? $quantity : null
 		));
 	}
 

@@ -17,7 +17,25 @@ class PostFixture extends CakeTestFixture {
 			'id' => 1,
 			'account_id' => 1,
 			'created' => '2011-01-18 12:22:58',
-			'message' => 'Lorem ipsum dolor sit amet, aliquet feugiat. Convallis morbi fringilla gravida, phasellus feugiat dapibus velit nunc, pulvinar eget sollicitudin venenatis cum nullam, vivamus ut a sed, mollitia lectus. Nulla vestibulum massa neque ut et, id hendrerit sit, feugiat in taciti enim proin nibh, tempor dignissim, rhoncus duis vestibulum nunc mattis convallis.'
+			'message' => 'Lorem ipsum.'
+		),
+		array(
+			'id' => 2,
+			'account_id' => 2,
+			'created' => '2011-01-18 12:23:58',
+			'message' => 'Lorem ipsum.'
+		),
+		array(
+			'id' => 3,
+			'account_id' => 3,
+			'created' => '2011-01-18 12:24:58',
+			'message' => 'Lorem ipsum.'
+		),
+		array(
+			'id' => 4,
+			'account_id' => 4,
+			'created' => '2011-01-18 12:25:58',
+			'message' => 'Lorem ipsum.'
 		),
 	);
 }

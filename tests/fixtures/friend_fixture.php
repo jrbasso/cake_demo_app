@@ -16,8 +16,20 @@ class FriendFixture extends CakeTestFixture {
 		array(
 			'id' => 1,
 			'request_friend_id' => 1,
+			'requested_friend_id' => 2,
+			'accepted' => 1
+		),
+		array(
+			'id' => 2,
+			'request_friend_id' => 3,
 			'requested_friend_id' => 1,
 			'accepted' => 1
+		),
+		array(
+			'id' => 3,
+			'request_friend_id' => 4,
+			'requested_friend_id' => 1,
+			'accepted' => 0
 		),
 	);
 }

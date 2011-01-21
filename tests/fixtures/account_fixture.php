@@ -17,11 +17,35 @@ class AccountFixture extends CakeTestFixture {
 	public $records = array(
 		array(
 			'id' => 1,
-			'username' => 'Lorem ipsum dolor sit amet',
-			'password' => 'Lorem ipsum dolor sit amet',
-			'name' => 'Lorem ipsum dolor sit amet',
-			'email' => 'Lorem ipsum dolor sit amet',
+			'username' => 'user1',
+			'password' => 'secret',
+			'name' => 'User 1',
+			'email' => 'user1@example.com',
 			'created' => '2011-01-18 12:13:48'
+		),
+		array(
+			'id' => 2,
+			'username' => 'user2',
+			'password' => 'secret',
+			'name' => 'User 2',
+			'email' => 'user2@example.com',
+			'created' => '2011-01-18 12:13:50'
+		),
+		array(
+			'id' => 3,
+			'username' => 'user3',
+			'password' => 'secret',
+			'name' => 'User 3',
+			'email' => 'user3@example.com',
+			'created' => '2011-01-18 12:13:50'
+		),
+		array(
+			'id' => 4,
+			'username' => 'user4',
+			'password' => 'secret',
+			'name' => 'User 4',
+			'email' => 'user4@example.com',
+			'created' => '2011-01-18 12:13:50'
 		),
 	);
 }
