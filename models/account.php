@@ -153,4 +153,69 @@ class Account extends AppModel {
 		)
 	);
 
+	public function getIdFromUsername($username) {
+		return $this->field('id', compact('username'));
+	}
+
+	public function getRandomFriends($username, $quantity) {
+		$friends = $this->_getFriendIds($username, $quantity, true);
+		if (empty($friends)) {
+			return array();
+		}
+		return $this->find('all', array(
+			'conditions' => array(
+				'Account.id' => $friends
+			),
+			'recursive' => -1
+		));
+	}
+
+	public function getRandomPhotos($username, $quantity) {
+		return $this->Photo->find('all', array(
+			'conditions' => array('Account.username' => $username),
+			'order' => 'RAND()',
+			'limit' => $quantity
+		));
+	}
+
+	public function getLastFeeds($username, $quantity) {
+		$accounts = $this->_getFriendIds($username);
+		$accounts[] = $this->getIdFromUsername($username);
+		return $this->Post->find('all', array(
+			'conditions' => array('Post.account_id' => $accounts),
+			'order' => array('Post.created' => 'DESC')
+		));
+	}
+
+	protected function _getFriendIds($username, $limit = 0, $rand = true) {
+		static $friends = array();
+		if (isset($friends[$username])) {
+			if ($limit > 0) {
+				if ($rand) {
+					shuffle($friends[$username]);
+				}
+				return array_slice($friends[$username], 0, $limit);
+			}
+			return $friends[$username];
+		}
+		$accountId = $this->getIdFromUsername($username);
+		$data = $this->DoFriend->find('all', array(
+			'fields' => array('DoFriend.request_friend_id', 'DoFriend.requested_friend_id'),
+			'conditions' => array(
+				'DoFriend.accepted' => 1,
+				'OR' => array(
+					'DoFriend.request_friend_id' => $accountId,
+					'DoFriend.requested_friend_id' => $accountId
+				)
+			),
+			'order' => 'RAND()',
+			'recursive' => -1
+		));
+		if (empty($data)) {
+			return array();
+		}
+		$friends = array_merge(Set::classicExtract($data, '{n}.DoFriend.request_friend_id'), Set::classicExtract($data, '{n}.DoFriend.requested_friend_id'));
+		return array_diff($friends, array($accountId));
+	}
+
 }

@@ -28,10 +28,15 @@ class AccountsController extends AppController {
 	}
 
 	public function view($username = null) {
-		$user = $this->Auth->user();
-		$feeds = $this->Account->getFeeds($user['Account']['id']);
-		$canAddAsFriend = ($user['Account']['username'] === $username);
-		$this->set(compact('user', 'feeds', 'canAddAsFriend'));
+		$user = false;
+		if ($this->_logged) {
+			$user = $this->Auth->user();
+		}
+		$friends = $this->Account->getRandomFriends($username, self::NUM_FRIENDS);
+		$photos = $this->Account->getRandomPhotos($username, self::NUM_PHOTOS);
+		$feeds = $this->Account->getLastFeeds($username, self::NUM_FEEDS);
+		$canAddAsFriend = ($user && $user['Account']['username'] === $username);
+		$this->set(compact('user', 'friends', 'photos', 'feeds', 'canAddAsFriend'));
 /*
 		$this->Account->id = $id;
 		if (!$this->Account->exists()) {
