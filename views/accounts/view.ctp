@@ -1,5 +1,5 @@
 <h2><?php echo __('Hi, %s.', $user['Account']['name']); ?></h2>
-<?php if (!$me): ?>
+<?php if ($loggedUser && !$me): ?>
 <div id="add_as_friend">
 	<?php echo $this->Helpers->Html->link('Add as friend', array('controller' => 'accounts', 'action' => 'add_friend', $user['Account']['username'])); ?>
 </div>
