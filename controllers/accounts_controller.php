@@ -25,6 +25,7 @@ class AccountsController extends AppController {
 	public function all() {
 		$this->Account->recursive = 0;
 		$this->set('accounts', $this->paginate());
+		$this->helpers[] = 'Time';
 	}
 
 	public function view($username = null) {
