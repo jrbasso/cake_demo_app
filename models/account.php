@@ -165,6 +165,45 @@ class Account extends AppModel {
 		return $this->read(null, $userId);
 	}
 
+	public function addFriend($userRequest, $userRequested) {
+		$requestId = $this->getIdFromUsername($userRequest);
+		$requestedId = $this->getIdFromUsername($userRequested);
+		if (empty($requestId) || empty($requestedId)) {
+			throw new Exception(__('The friendship can not be established. Please, try again.'));
+		}
+		$exists = $this->DoFriend->find('first', array(
+			'conditions' => array(
+				'OR' => array(
+					array(
+						'request_friend_id' => $requestId,
+						'requested_friend_id' => $requestedId
+					),
+					array(
+						'request_friend_id' => $requestedId,
+						'requested_friend_id' => $requestId
+					)
+				)
+			),
+			'recursive' => -1
+		));
+		if (!empty($exists)) {
+			if ($exists['DoFriend']['accepted']) {
+				throw new Exception(__('You are already friend with %s.', $userRequested));
+			} else {
+				throw new Exception(__('You are already invited %s.', $userRequested));
+			}
+		}
+		$this->DoFriend->create();
+		$success = $this->DoFriend->save(array(
+			'request_friend_id' => $requestId,
+			'requested_friend_id' => $requestedId,
+			'accepted' => 0
+		));
+		if (!$success) {
+			throw new Exception(__('The friendship can not be established. Please, try again.'));
+		}
+	}
+
 	public function getRandomFriends($username, $quantity) {
 		$friends = $this->_getFriendIds($username, $quantity, true);
 		if (empty($friends)) {

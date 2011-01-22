@@ -1,5 +1,5 @@
 <?php 
-/* Demo schema generated on: 2011-01-20 22:20:09 : 1295569209*/
+/* Demo schema generated on: 2011-01-22 15:40:59 : 1295718059*/
 class DemoSchema extends CakeSchema {
 	var $name = 'Demo';
 
@@ -22,10 +22,10 @@ class DemoSchema extends CakeSchema {
 	);
 	var $friends = array(
 		'id' => array('type' => 'integer', 'null' => false, 'default' => NULL, 'key' => 'primary', 'collate' => NULL, 'comment' => ''),
-		'request_friend_id' => array('type' => 'integer', 'null' => false, 'default' => NULL, 'collate' => NULL, 'comment' => ''),
+		'request_friend_id' => array('type' => 'integer', 'null' => false, 'default' => NULL, 'key' => 'index', 'collate' => NULL, 'comment' => ''),
 		'requested_friend_id' => array('type' => 'integer', 'null' => false, 'default' => NULL, 'collate' => NULL, 'comment' => ''),
 		'accepted' => array('type' => 'integer', 'null' => true, 'default' => '0', 'length' => 4, 'collate' => NULL, 'comment' => ''),
-		'indexes' => array('PRIMARY' => array('column' => 'id', 'unique' => 1)),
+		'indexes' => array('PRIMARY' => array('column' => 'id', 'unique' => 1), 'request_requested' => array('column' => array('request_friend_id', 'requested_friend_id'), 'unique' => 1)),
 		'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_general_ci', 'engine' => 'InnoDB')
 	);
 	var $photo_comments = array(

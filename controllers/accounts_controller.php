@@ -59,4 +59,23 @@ class AccountsController extends AppController {
 		}
 	}
 
+	public function add_friend($username) {
+		if (!$this->_logged) {
+			$this->Session->setFlash(__('You are not logged.'));
+			$this->redirect($this->request->referer());
+		}
+		$me = $this->Auth->user();
+		if ($me['Account']['username'] === $username) {
+			$this->Session->setFlash(__('You cannot add yourself.'));
+			$this->redirect($this->request->referer());
+		}
+		try {
+			$this->Account->addFriend($me['Account']['username'], $username);
+			$this->Session->setFlash(__('The invite has made. The %s need to approve the friendship.', $username));
+		} catch (Exception $e) {
+			$this->Session->setFlash($e->getMessage());
+		}
+		$this->redirect(array('action' => 'view', $username));
+	}
+
 }
