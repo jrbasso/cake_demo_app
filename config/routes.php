@@ -28,7 +28,4 @@
  */
 	Router::connect('/', array('controller' => 'accounts', 'action' => 'index'));
 
-/**
- * ...and connect the rest of 'Pages' controller's urls.
- */
-	Router::connect('/pages/*', array('controller' => 'pages', 'action' => 'display'));
+	Router::connect('/a/:account', array('controller' => 'accounts', 'action' => 'view'), array('account' => '\w+', 'pass' => array('account')));
