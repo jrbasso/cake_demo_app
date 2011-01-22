@@ -28,21 +28,22 @@ class AccountsController extends AppController {
 	}
 
 	public function view($username = null) {
-		$user = false;
+		$user = $this->Account->getUser($username);
+		if (empty($user)) {
+			$this->response->statusCode(404);
+			$this->set(compact('username'));
+			$this->render('user_not_found');
+			return;
+		}
+		$loggedUser = false;
 		if ($this->_logged) {
-			$user = $this->Auth->user();
+			$loggedUser = $this->Auth->user();
 		}
 		$friends = $this->Account->getRandomFriends($username, self::NUM_FRIENDS);
 		$photos = $this->Account->getRandomPhotos($username, self::NUM_PHOTOS);
 		$feeds = $this->Account->getLastFeeds($username, self::NUM_FEEDS);
-		$canAddAsFriend = ($user && $user['Account']['username'] === $username);
-		$this->set(compact('user', 'friends', 'photos', 'feeds', 'canAddAsFriend'));
-/*
-		$this->Account->id = $id;
-		if (!$this->Account->exists()) {
-			throw new NotFoundException(__('Invalid account'));
-		}
-		$this->set('account', $this->Account->read(null, $id));*/
+		$canAddAsFriend = ($loggedUser && $loggedUser['Account']['username'] === $username);
+		$this->set(compact('loggedUser', 'user', 'friends', 'photos', 'feeds', 'canAddAsFriend'));
 	}
 
 	public function add() {

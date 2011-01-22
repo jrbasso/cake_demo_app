@@ -1,0 +1,1 @@
+<h2>Sorry, <?php echo $username; ?> not found.</h2>

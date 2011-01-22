@@ -157,6 +157,14 @@ class Account extends AppModel {
 		return $this->field('id', compact('username'));
 	}
 
+	public function getUser($username) {
+		$userId = $this->getIdFromUsername($username);
+		if (empty($userId)) {
+			return array();
+		}
+		return $this->read(null, $userId);
+	}
+
 	public function getRandomFriends($username, $quantity) {
 		$friends = $this->_getFriendIds($username, $quantity, true);
 		if (empty($friends)) {
