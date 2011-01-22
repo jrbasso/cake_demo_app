@@ -157,12 +157,15 @@ class Account extends AppModel {
 		return $this->field('id', compact('username'));
 	}
 
-	public function getUser($username) {
+	public function getUser($username, $associations = false) {
 		$userId = $this->getIdFromUsername($username);
 		if (empty($userId)) {
 			return array();
 		}
-		return $this->read(null, $userId);
+		return $this->find('first', array(
+			'conditions' => array('Account.id' => $userId),
+			'recursive' => $associations ? 0 : -1
+		));
 	}
 
 	public function addFriend($userRequest, $userRequested) {
