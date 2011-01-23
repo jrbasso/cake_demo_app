@@ -16,10 +16,10 @@
 		}
 	?>
 	<tr<?php echo $class;?>>
-		<td><?php echo $this->Helpers->Html->link($account['Account']['username'], array('action' => 'view', $account['Account']['username'])); ?>&nbsp;</td>
+		<td><?php echo $this->Html->link($account['Account']['username'], array('action' => 'view', $account['Account']['username'])); ?>&nbsp;</td>
 		<td><?php echo h($account['Account']['name']); ?>&nbsp;</td>
 		<td><?php echo h($account['Account']['email']); ?>&nbsp;</td>
-		<td><?php echo $this->Helpers->Time->timeAgoInWords($account['Account']['created']); ?>&nbsp;</td>
+		<td><?php echo $this->Time->timeAgoInWords($account['Account']['created']); ?>&nbsp;</td>
 	</tr>
 <?php endforeach; ?>
 	</table>
