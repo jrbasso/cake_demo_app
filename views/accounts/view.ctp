@@ -6,8 +6,10 @@
 <?php endif; ?>
 
 <div id="user_data">
-	<?php echo $this->element('friends'); ?>
-	<?php echo $this->element('photos'); ?>
+	<div id="user_info">
+		<?php echo $this->element('friends'); ?>
+		<?php echo $this->element('photos'); ?>
+	</div>
 
 	<div id="updates">
 <?php if ($me): ?>

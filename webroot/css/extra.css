@@ -11,3 +11,19 @@
 	display: inline;
 	margin-left: 20px;
 }
+#user_data #user_info {
+	width: 200px;
+	float: left;
+}
+#user_data #user_info div {
+	margin-bottom: 30px;
+}
+#user_data #updates {
+	float: left;
+}
+#my_post div {
+	margin: 0 !important;
+}
+#my_post textarea {
+	height: 50px;
+}
