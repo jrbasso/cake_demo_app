@@ -44,7 +44,8 @@ class AccountsController extends AppController {
 		$photos = $this->Account->getRandomPhotos($username, self::NUM_PHOTOS);
 		$feeds = $this->Account->getLastFeeds($username, self::NUM_FEEDS);
 		$me = ($loggedUser && $loggedUser['Account']['username'] === $username);
-		$this->set(compact('loggedUser', 'user', 'friends', 'photos', 'feeds', 'me'));
+		$canBeMyFriend = !$me && $loggedUser && $this->Account->canBeMyFriend($loggedUser['Account']['username'], $username);
+		$this->set(compact('loggedUser', 'user', 'friends', 'photos', 'feeds', 'me', 'canBeMyFriend'));
 	}
 
 	public function add() {

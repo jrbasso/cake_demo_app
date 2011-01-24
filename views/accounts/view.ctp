@@ -1,7 +1,7 @@
 <h2><?php echo __('Hi, %s.', $user['Account']['name']); ?></h2>
-<?php if ($loggedUser && !$me): ?>
+<?php if ($canBeMyFriend): ?>
 <div id="add_as_friend">
-	<?php echo $this->Html->link('Add as friend', array('controller' => 'accounts', 'action' => 'add_friend', $user['Account']['username'])); ?>
+	<?php echo $this->Html->link(__('Add as friend'), array('controller' => 'accounts', 'action' => 'add_friend', $user['Account']['username'])); ?>
 </div>
 <?php endif; ?>
 

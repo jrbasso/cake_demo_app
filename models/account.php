@@ -237,6 +237,27 @@ class Account extends AppModel {
 		return (bool)$this->DoFriend->saveField('accepted', $accepted ? 1 : 2);
 	}
 
+	public function canBeMyFriend($me, $other) {
+		$requestId = $this->getIdFromUsername($me);
+		$requestedId = $this->getIdFromUsername($other);
+		$result = $this->DoFriend->find('count', array(
+			'conditions' => array(
+				'OR' => array(
+					array(
+						'request_friend_id' => $requestId,
+						'requested_friend_id' => $requestedId
+					),
+					array(
+						'request_friend_id' => $requestedId,
+						'requested_friend_id' => $requestId
+					)
+				)
+			),
+			'recursive' => -1
+		));
+		return $result === 0;
+	}
+
 	public function getRandomFriends($username, $quantity) {
 		$friends = $this->_getFriendIds($username, $quantity, true);
 		if (empty($friends)) {
