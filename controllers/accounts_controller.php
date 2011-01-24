@@ -79,4 +79,36 @@ class AccountsController extends AppController {
 		$this->redirect(array('action' => 'view', $username));
 	}
 
+	public function invitations() {
+		if (!$this->_logged) {
+			$this->Session->setFlash(__('You are not logged.'));
+			$this->redirect($this->request->referer());
+		}
+		$user = $this->Auth->user();
+		$invitations = $this->Account->getInvitations($user['Account']['id']);
+		$this->set(compact('invitations'));
+	}
+
+	public function invite_response($userId) {
+		if (!$this->request->is('post') || !isset($this->data['accept']) || empty($userId)) {
+			throw new MethodNotAllowedException();
+		}
+		if (!$this->_logged) {
+			$this->Session->setFlash(__('You are not logged.'));
+			$this->redirect('/');
+		}
+		$accept = $this->data['accept'] == 1;
+		$me = $this->Auth->user();
+		if ($this->Account->acceptInvitation($me['Account']['id'], $userId, $accept)) {
+			if ($accept) {
+				$this->Session->setFlash(__('You have a new friend. :)'));
+			} else {
+				$this->Session->setFlash(__('I also hate that guy...'));
+			}
+		} else {
+			$this->Session->setFlash(__('Ooops, some problem with this invitation. Please, try again.'));
+		}
+		$this->redirect(array('action' => 'invitations'));
+	}
+
 }

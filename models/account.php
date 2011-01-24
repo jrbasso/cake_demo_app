@@ -217,6 +217,26 @@ class Account extends AppModel {
 		));
 	}
 
+	public function getInvitations($userId) {
+		return $this->InvitedFriend->find('all', array(
+			'conditions' => array(
+				'InvitedFriend.requested_friend_id' => $userId,
+				'InvitedFriend.accepted' => 0
+			),
+			'contain' => array(
+				'DoFriend'
+			)
+		));
+	}
+
+	public function acceptInvitation($invitedId, $inviterId, $accepted) {
+		$this->DoFriend->id = $this->DoFriend->field('id', array('request_friend_id' => $inviterId, 'requested_friend_id' => $invitedId));
+		if (empty($this->DoFriend->id)) {
+			return false;
+		}
+		return (bool)$this->DoFriend->saveField('accepted', $accepted ? 1 : 2);
+	}
+
 	public function getRandomFriends($username, $quantity) {
 		$friends = $this->_getFriendIds($username, $quantity, true);
 		if (empty($friends)) {
