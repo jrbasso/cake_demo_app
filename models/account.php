@@ -154,7 +154,11 @@ class Account extends AppModel {
 	);
 
 	public function getIdFromUsername($username) {
-		return $this->field('id', compact('username'));
+		static $users = array();
+		if (isset($users[$username])) {
+			return $users[$username];
+		}
+		return $users[$username] = $this->field('id', compact('username'));
 	}
 
 	public function getUser($username, $associations = false) {
