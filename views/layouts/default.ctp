@@ -28,6 +28,7 @@
 		echo $this->Html->meta('icon');
 
 		echo $this->Html->css('cake.generic');
+		echo $this->Html->css('extra');
 
 		echo $scripts_for_layout;
 	?>
@@ -36,9 +37,14 @@
 	<div id="container">
 		<div id="header">
 			<h1><?php echo $this->Html->link(__('Demo Application'), '/'); ?></h1>
+			<div class="links">
 			<?php if ($logged): ?>
+			<?php if (isset($openInvite) && $openInvite > 0): ?>
+			<div class="accept_invite"><?php echo $this->Html->link(__('%d pending invitation', $openInvite), array('controller' => 'accounts', 'action' => 'invitations')); ?></div>
+			<?php endif; ?>
 			<div class="logout"><?php echo $this->Html->link(__('Logout'), array('controller' => 'accounts', 'action' => 'logout')); ?></div>
 			<?php endif; ?>
+			</div>
 		</div>
 		<div id="content">
 

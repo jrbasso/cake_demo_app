@@ -207,6 +207,16 @@ class Account extends AppModel {
 		}
 	}
 
+	public function invitesToAccept($userId) {
+		return $this->InvitedFriend->find('count', array(
+			'conditions' => array(
+				'InvitedFriend.requested_friend_id' => $userId,
+				'InvitedFriend.accepted' => 0
+			),
+			'recursive' => -1
+		));
+	}
+
 	public function getRandomFriends($username, $quantity) {
 		$friends = $this->_getFriendIds($username, $quantity, true);
 		if (empty($friends)) {

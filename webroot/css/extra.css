@@ -1,0 +1,13 @@
+#header h1 {
+	float: left;
+}
+#header div.links {
+	text-align: right;
+}
+#header div.links a {
+	color: #fff;
+}
+#header div.links div {
+	display: inline;
+	margin-left: 20px;
+}

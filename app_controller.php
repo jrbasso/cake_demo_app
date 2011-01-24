@@ -31,6 +31,7 @@
 class AppController extends Controller {
 
 	public $components = array('Session', 'Auth');
+	public $uses = array('Account');
 	protected $_logged = false;
 
 	public function beforeFilter() {
@@ -41,6 +42,10 @@ class AppController extends Controller {
 
 	public function beforeRender() {
 		$this->set('logged', $this->_logged);
+		if ($this->_logged) {
+			$user = $this->Auth->user();
+			$this->set('openInvite', $this->Account->invitesToAccept($user['Account']['id']));
+		}
 
 		parent::beforeRender();
 	}
