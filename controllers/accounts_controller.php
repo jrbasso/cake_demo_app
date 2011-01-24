@@ -46,6 +46,8 @@ class AccountsController extends AppController {
 		$me = ($loggedUser && $loggedUser['Account']['username'] === $username);
 		$canBeMyFriend = !$me && $loggedUser && $this->Account->canBeMyFriend($loggedUser['Account']['username'], $username);
 		$this->set(compact('loggedUser', 'user', 'friends', 'photos', 'feeds', 'me', 'canBeMyFriend'));
+
+		$this->helpers[] = 'Time';
 	}
 
 	public function add() {

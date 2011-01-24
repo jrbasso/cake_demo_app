@@ -23,7 +23,13 @@
 		<div id="feeds">
 <?php foreach ($feeds as $feed): ?>
 			<div class="feed">
-				<p><?php echo __('%s said:', '<span class="user">' . $this->Html->link($feed['Account']['username'], array('controller' => 'accounts', 'action' => 'view', $feed['Account']['username'])) . '</span>'); ?></p>
+				<p><?php
+					echo __(
+						'%s said on %s:',
+						'<span class="user">' . $this->Html->link($feed['Account']['username'], array('controller' => 'accounts', 'action' => 'view', $feed['Account']['username'])) . '</span>',
+						$this->Time->timeAgoInWords($feed['Post']['created'])
+					);
+				?></p>
 				<p class="message"><?php echo nl2br(h($feed['Post']['message'])); ?></p>
 			</div>
 <?php endforeach; ?>
