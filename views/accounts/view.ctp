@@ -25,14 +25,21 @@
 		<div id="feeds">
 <?php foreach ($feeds as $feed): ?>
 			<div class="feed">
-				<p><?php
+				<p>
+<?php
 					echo __(
 						'%s said on %s:',
 						'<span class="user">' . $this->Html->link($feed['Account']['username'], array('controller' => 'accounts', 'action' => 'view', $feed['Account']['username'])) . '</span>',
 						$this->Time->timeAgoInWords($feed['Post']['created'])
 					);
-				?></p>
+?>
+				</p>
 				<p class="message"><?php echo nl2br(h($feed['Post']['message'])); ?></p>
+<?php
+					if ($me && $feed['Account']['username'] === $loggedUser['Account']['username']) {
+						echo ' ', $this->Form->postLink(__('Delete'), array('action' => 'delete_post', $feed['Post']['id']));
+					}
+?>
 			</div>
 <?php endforeach; ?>
 		</div>

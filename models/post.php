@@ -41,4 +41,12 @@ class Post extends AppModel {
 		)
 	);
 
+	public function deletePost($userId, $postId) {
+		$this->id = $postId;
+		$post = $this->read(array('account_id'), $postId);
+		if (empty($post) || $post['Post']['account_id'] != $userId) {
+			return false;
+		}
+		return $this->delete();
+	}
 }

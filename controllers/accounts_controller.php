@@ -115,4 +115,24 @@ class AccountsController extends AppController {
 		$this->redirect(array('action' => 'invitations'));
 	}
 
+	public function delete_post($postId) {
+		if (!$this->request->is('post')) {
+			throw new MethodNotAllowedException();
+		}
+		if (empty($postId)) {
+			throw new NotFoundException(__('Invalid post.'));
+		}
+		if (!$this->_logged) {
+			$this->Session->setFlash(__('You are not logged.'));
+			$this->redirect('/');
+		}
+		$user = $this->Auth->user();
+		if ($this->Account->Post->deletePost($user['Account']['id'], $postId)) {
+			$this->Session->setFlash(__('Post deleted.'));
+		} else {
+			$this->Session->setFlash(__('Failed to delete the post.'));
+		}
+		$this->redirect(array('action' => 'view', $user['Account']['username']));
+	}
+
 }
