@@ -59,6 +59,7 @@ class AccountsController extends AppController {
 				$this->redirect($this->Auth->loginRedirect);
 			} else {
 				$this->Session->setFlash(__('The account could not be saved. Please, try again.'));
+				$this->request->data['Account']['password'] = '';
 			}
 		}
 	}
