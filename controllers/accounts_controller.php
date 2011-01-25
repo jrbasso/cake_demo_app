@@ -55,8 +55,8 @@ class AccountsController extends AppController {
 			$this->Account->create();
 			if ($this->Account->save($this->request->data)) {
 				$this->Session->setFlash(__('The account has been created.'));
-				$this->Auth->login();
-				$this->redirect(array('action' => 'index'));
+				$this->Auth->login($this->request->data);
+				$this->redirect($this->Auth->loginRedirect);
 			} else {
 				$this->Session->setFlash(__('The account could not be saved. Please, try again.'));
 			}
