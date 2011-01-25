@@ -43,6 +43,8 @@
 			<div class="accept_invite"><?php echo $this->Html->link(__('%d pending invitation', $openInvite), array('controller' => 'accounts', 'action' => 'invitations')); ?></div>
 			<?php endif; ?>
 			<div class="logout"><?php echo $this->Html->link(__('Logout'), array('controller' => 'accounts', 'action' => 'logout')); ?></div>
+			<?php else: ?>
+			<div class="logout"><?php echo $this->Html->link(__('Login'), array('controller' => 'accounts', 'action' => 'login')); ?></div>
 			<?php endif; ?>
 			</div>
 		</div>
