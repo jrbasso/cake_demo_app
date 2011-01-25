@@ -17,7 +17,7 @@
 <?php
 			echo $this->Form->create('Post', array('url' => array('controller' => 'posts', 'action' => 'add')));
 			echo $this->Form->hidden('account_id', array('value' => $user['Account']['id']));
-			echo $this->Form->input('message');
+			echo $this->Form->input('message', array('type' => 'textarea', 'maxlenght' => 255, 'autocomplete' => 'off', 'placeholder' => __('Type or message here.')));
 			echo $this->Form->end(__('Post'));
 ?>
 		</div>
