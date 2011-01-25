@@ -21,7 +21,7 @@
 <head>
 	<?php echo $this->Html->charset(); ?>
 	<title>
-		<?php echo __('CakePHP: the rapid development php framework:'); ?>
+		<?php echo __('CakePHP Demo Application:'); ?>
 		<?php echo $title_for_layout; ?>
 	</title>
 	<?php
