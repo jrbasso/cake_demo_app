@@ -45,7 +45,8 @@ class AccountsController extends AppController {
 		$feeds = $this->Account->getLastFeeds($username, self::NUM_FEEDS);
 		$me = ($loggedUser && $loggedUser['Account']['username'] === $username);
 		$canBeMyFriend = !$me && $loggedUser && $this->Account->canBeMyFriend($loggedUser['Account']['username'], $username);
-		$this->set(compact('loggedUser', 'user', 'friends', 'photos', 'feeds', 'me', 'canBeMyFriend'));
+		$myFriend = !$me && $loggedUser && $this->Account->isFriend($loggedUser['Account']['username'], $username);
+		$this->set(compact('loggedUser', 'user', 'friends', 'photos', 'feeds', 'me', 'canBeMyFriend', 'myFriend'));
 
 		$this->helpers[] = 'Time';
 	}

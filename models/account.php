@@ -267,6 +267,10 @@ class Account extends AppModel {
 		return $result === 0;
 	}
 
+	public function isFriend($me, $friend) {
+		return in_array($this->getIdFromUsername($friend), $this->_getFriendIds($me));
+	}
+
 	public function getRandomFriends($username, $quantity) {
 		$friends = $this->_getFriendIds($username, $quantity, true);
 		if (empty($friends)) {
@@ -294,7 +298,8 @@ class Account extends AppModel {
 		return $this->Post->find('all', array(
 			'conditions' => array('Post.account_id' => $accounts),
 			'order' => array('Post.created' => 'DESC'),
-			'limit' => $quantity > 0 ? $quantity : null
+			'limit' => $quantity > 0 ? $quantity : null,
+			'contain' => array('Account', 'PostComment', 'PostComment.Commenter')
 		));
 	}
 

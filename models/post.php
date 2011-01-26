@@ -32,7 +32,7 @@ class Post extends AppModel {
 			'dependent' => false,
 			'conditions' => '',
 			'fields' => '',
-			'order' => '',
+			'order' => array('PostComment.created' => 'DESC'),
 			'limit' => '',
 			'offset' => '',
 			'exclusive' => '',
@@ -41,6 +41,8 @@ class Post extends AppModel {
 		)
 	);
 
+	public $actsAs = array('Containable');
+
 	public function deletePost($userId, $postId) {
 		$this->id = $postId;
 		$post = $this->read(array('account_id'), $postId);
@@ -48,5 +50,20 @@ class Post extends AppModel {
 			return false;
 		}
 		return $this->delete();
+	}
+
+	public function addComment($user, $postId, $message) {
+		$post = $this->find('first', array('conditions' => array('Post.id' => $postId), 'contain' => array('Account')));
+		if (empty($post)) {
+			return false;
+		}
+		if ($post['Account']['username'] !== $user && !$this->Account->isFriend($user, $post['Account']['username'])) {
+			return false;
+		}
+		return $this->PostComment->save(array(
+			'post_id' => $postId,
+			'commenter_id' => $this->Account->getIdFromUsername($user),
+			'comment' => $message
+		));
 	}
 }
