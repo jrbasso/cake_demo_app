@@ -295,6 +295,8 @@ class Account extends AppModel {
 	public function getLastFeeds($username, $quantity) {
 		$accounts = $this->_getFriendIds($username);
 		$accounts[] = $this->getIdFromUsername($username);
+		$this->Post->cacheQueries = true;
+		$this->Post->PostComment->cacheQueries = true;
 		return $this->Post->find('all', array(
 			'conditions' => array('Post.account_id' => $accounts),
 			'order' => array('Post.created' => 'DESC'),
