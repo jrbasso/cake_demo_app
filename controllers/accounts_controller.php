@@ -76,10 +76,7 @@ class AccountsController extends AppController {
 	}
 
 	public function add_friend($username) {
-		if (!$this->_logged) {
-			$this->Session->setFlash(__('You are not logged.'));
-			$this->redirect($this->request->referer());
-		}
+		$this->_checkLogged($this->request->referer());
 		$me = $this->Auth->user();
 		if ($me['username'] === $username) {
 			$this->Session->setFlash(__('You cannot add yourself.'));
@@ -95,10 +92,7 @@ class AccountsController extends AppController {
 	}
 
 	public function invitations() {
-		if (!$this->_logged) {
-			$this->Session->setFlash(__('You are not logged.'));
-			$this->redirect($this->request->referer());
-		}
+		$this->_checkLogged($this->request->referer());
 		$user = $this->Auth->user();
 		$invitations = $this->Account->getInvitations($user['id']);
 		$this->set(compact('invitations'));
@@ -108,10 +102,7 @@ class AccountsController extends AppController {
 		if (!$this->request->is('post') || !isset($this->data['accept']) || empty($userId)) {
 			throw new MethodNotAllowedException();
 		}
-		if (!$this->_logged) {
-			$this->Session->setFlash(__('You are not logged.'));
-			$this->redirect('/');
-		}
+		$this->_checkLogged();
 		$accept = $this->data['accept'] == 1;
 		$me = $this->Auth->user();
 		if ($this->Account->acceptInvitation($me['id'], $userId, $accept)) {
@@ -133,10 +124,7 @@ class AccountsController extends AppController {
 		if (empty($postId)) {
 			throw new NotFoundException(__('Invalid post.'));
 		}
-		if (!$this->_logged) {
-			$this->Session->setFlash(__('You are not logged.'));
-			$this->redirect('/');
-		}
+		$this->_checkLogged();
 		$user = $this->Auth->user();
 		if ($this->Account->Post->deletePost($user['id'], $postId)) {
 			$this->Session->setFlash(__('Post deleted.'));
@@ -144,6 +132,13 @@ class AccountsController extends AppController {
 			$this->Session->setFlash(__('Failed to delete the post.'));
 		}
 		$this->redirect(array('action' => 'view', $user['username']));
+	}
+
+	protected function _checkLogged($url = '/') {
+		if (!$this->_logged) {
+			$this->Session->setFlash(__('You are not logged.'));
+			$this->redirect($url);
+		}
 	}
 
 }
