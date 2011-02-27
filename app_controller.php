@@ -30,7 +30,7 @@
  */
 class AppController extends Controller {
 
-	public $components = array('Session', 'Auth');
+	public $components = array('Session', 'Auth' => array('all' => array('userModel' => 'Account')));
 	public $uses = array('Account');
 	protected $_logged = false;
 
@@ -44,15 +44,22 @@ class AppController extends Controller {
 		$this->set('logged', $this->_logged);
 		if ($this->_logged) {
 			$user = $this->Auth->user();
-			$this->set('openInvite', $this->Account->invitesToAccept($user['Account']['id']));
+			$this->set('openInvite', $this->Account->invitesToAccept($user['id']));
 		}
 
 		parent::beforeRender();
 	}
 
 	protected function _authConfig() {
-		$this->Auth->userModel = 'Account';
-		$this->Auth->fields = array('username' => 'username', 'password' => 'password');
+		$this->Auth->authenticate = array(
+			'Form' => array(
+				'userModel' => 'Account',
+				'fields' => array(
+					'username' => 'username',
+					'password' => 'password'
+				)
+			)
+		);
 		$this->Auth->loginAction = array('controller' => 'accounts', 'action' => 'login');
 		$this->Auth->loginRedirect = '/';
 		$this->Auth->logoutRedirect = $this->Auth->loginRedirect;

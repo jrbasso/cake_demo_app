@@ -6,8 +6,15 @@ class AccountsController extends AppController {
 	const NUM_FEEDS = 20;
 
 	public function login() {
+		if ($this->_logged) {
+			$this->redirect($this->Auth->redirect());
+		}
 		if ($this->request->is('post')) {
-			$this->Auth->login();
+			if ($this->Auth->login()) {
+				$this->redirect($this->Auth->redirect());
+			} else {
+				$this->Session->setFlash(__('Username or password is incorrect'), 'default', array(), 'auth');
+			}
 		}
 	}
 
@@ -18,7 +25,7 @@ class AccountsController extends AppController {
 	public function index() {
 		if ($this->_logged) {
 			$user = $this->Auth->user();
-			$this->redirect(array('action' => 'view', $user['Account']['username']));
+			$this->redirect(array('action' => 'view', $user['username']));
 		}
 	}
 
@@ -43,9 +50,9 @@ class AccountsController extends AppController {
 		$friends = $this->Account->getRandomFriends($username, self::NUM_FRIENDS);
 		$photos = $this->Account->getRandomPhotos($username, self::NUM_PHOTOS);
 		$feeds = $this->Account->getLastFeeds($username, self::NUM_FEEDS);
-		$me = ($loggedUser && $loggedUser['Account']['username'] === $username);
-		$canBeMyFriend = !$me && $loggedUser && $this->Account->canBeMyFriend($loggedUser['Account']['username'], $username);
-		$myFriend = !$me && $loggedUser && $this->Account->isFriend($loggedUser['Account']['username'], $username);
+		$me = ($loggedUser && $loggedUser['username'] === $username);
+		$canBeMyFriend = !$me && $loggedUser && $this->Account->canBeMyFriend($loggedUser['username'], $username);
+		$myFriend = !$me && $loggedUser && $this->Account->isFriend($loggedUser['username'], $username);
 		$this->set(compact('loggedUser', 'user', 'friends', 'photos', 'feeds', 'me', 'canBeMyFriend', 'myFriend'));
 
 		$this->helpers[] = 'Time';
@@ -60,7 +67,7 @@ class AccountsController extends AppController {
 				$this->redirect($this->Auth->loginRedirect);
 			} else {
 				$this->Session->setFlash(__('The account could not be saved. Please, try again.'));
-				$this->request->data['Account']['password'] = '';
+				$this->request->data['password'] = '';
 			}
 		}
 	}
@@ -71,12 +78,12 @@ class AccountsController extends AppController {
 			$this->redirect($this->request->referer());
 		}
 		$me = $this->Auth->user();
-		if ($me['Account']['username'] === $username) {
+		if ($me['username'] === $username) {
 			$this->Session->setFlash(__('You cannot add yourself.'));
 			$this->redirect($this->request->referer());
 		}
 		try {
-			$this->Account->addFriend($me['Account']['username'], $username);
+			$this->Account->addFriend($me['username'], $username);
 			$this->Session->setFlash(__('The invite has made. The %s need to approve the friendship.', $username));
 		} catch (Exception $e) {
 			$this->Session->setFlash($e->getMessage());
@@ -90,7 +97,7 @@ class AccountsController extends AppController {
 			$this->redirect($this->request->referer());
 		}
 		$user = $this->Auth->user();
-		$invitations = $this->Account->getInvitations($user['Account']['id']);
+		$invitations = $this->Account->getInvitations($user['id']);
 		$this->set(compact('invitations'));
 	}
 
@@ -104,7 +111,7 @@ class AccountsController extends AppController {
 		}
 		$accept = $this->data['accept'] == 1;
 		$me = $this->Auth->user();
-		if ($this->Account->acceptInvitation($me['Account']['id'], $userId, $accept)) {
+		if ($this->Account->acceptInvitation($me['id'], $userId, $accept)) {
 			if ($accept) {
 				$this->Session->setFlash(__('You have a new friend. :)'));
 			} else {
@@ -128,12 +135,12 @@ class AccountsController extends AppController {
 			$this->redirect('/');
 		}
 		$user = $this->Auth->user();
-		if ($this->Account->Post->deletePost($user['Account']['id'], $postId)) {
+		if ($this->Account->Post->deletePost($user['id'], $postId)) {
 			$this->Session->setFlash(__('Post deleted.'));
 		} else {
 			$this->Session->setFlash(__('Failed to delete the post.'));
 		}
-		$this->redirect(array('action' => 'view', $user['Account']['username']));
+		$this->redirect(array('action' => 'view', $user['username']));
 	}
 
 }

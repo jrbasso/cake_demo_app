@@ -30,7 +30,7 @@
 				<div class="time"><?php echo $this->Time->timeAgoInWords($feed['Post']['created']); ?></div>
 				<div class="delete">
 <?php
-					if ($me && $feed['Account']['username'] === $loggedUser['Account']['username']) {
+					if ($me && $feed['Account']['username'] === $loggedUser['username']) {
 						echo $this->Form->postLink(__('Delete'), array('action' => 'delete_post', $feed['Post']['id']));
 					}
 ?>
