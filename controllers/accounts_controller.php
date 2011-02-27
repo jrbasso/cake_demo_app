@@ -36,6 +36,9 @@ class AccountsController extends AppController {
 	}
 
 	public function view($username = null) {
+		if (empty($username)) {
+			$this->redirect('/');
+		}
 		$user = $this->Account->getUser($username);
 		if (empty($user)) {
 			$this->response->statusCode(404);
